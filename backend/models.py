@@ -13,7 +13,7 @@ class Item(Base):
     type = Column(String, nullable=False)  # "filme" ou "album"
     creator = Column(String)  # diretor ou artista
     artwork_url = Column(String)
-    tier = Column(String, nullable=False, default="D")
+    tier = Column(String)  # None = ainda não classificado (fica no pool)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     history = relationship(
@@ -27,7 +27,7 @@ class TierHistory(Base):
     id = Column(Integer, primary_key=True, index=True)
     item_id = Column(Integer, ForeignKey("items.id"), nullable=False)
     old_tier = Column(String)
-    new_tier = Column(String, nullable=False)
+    new_tier = Column(String)
     changed_at = Column(DateTime(timezone=True), server_default=func.now())
 
     item = relationship("Item", back_populates="history")

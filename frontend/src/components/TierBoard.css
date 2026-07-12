@@ -14,6 +14,16 @@
   font-size: 13px;
 }
 
+.exporting-image .item-card__actions {
+  display: none;
+}
+
+.tier-board__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
 .tier-board__rows {
   display: flex;
   flex-direction: column;
@@ -78,6 +88,12 @@
   padding: 12px;
   align-items: flex-start;
   min-width: 0;
+  min-height: 64px;
+  transition: background 0.15s ease;
+}
+
+.tier-row__items--over {
+  background: var(--color-primary-soft);
 }
 
 .tier-row__empty {
@@ -98,8 +114,15 @@
 }
 
 .item-card:hover {
-  transform: translateY(-2px);
   border-color: var(--color-primary);
+}
+
+.draggable-item {
+  cursor: grab;
+}
+
+.draggable-item:active {
+  cursor: grabbing;
 }
 
 .item-card__top {
@@ -160,25 +183,51 @@
   align-items: center;
 }
 
-.tier-chip {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: none;
-  background: var(--chip-color);
-  color: #14141c;
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.85;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+.unranked-pool {
+  margin-top: 20px;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
 }
 
-.tier-chip:hover {
-  opacity: 1;
-  transform: scale(1.12);
+.unranked-pool__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.unranked-pool__header strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 13px;
+}
+
+.unranked-pool__header span {
+  font-size: 12px;
+}
+
+.unranked-pool__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 64px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease;
+}
+
+.unranked-pool__items--over {
+  background: var(--color-primary-soft);
+}
+
+.unranked-pool__empty {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  align-self: center;
+  padding: 0 4px;
 }
 
 .history-panel {

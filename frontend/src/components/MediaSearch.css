@@ -6,13 +6,13 @@
 
 .media-search__input-wrap {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .media-search__icon {
   position: absolute;
-  left: 10px;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
   color: var(--color-text-muted);
   pointer-events: none;
 }
@@ -22,7 +22,7 @@
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  padding: 10px 12px 10px 32px;
+  padding: 10px 12px 10px 36px;
   color: var(--color-text);
   font-size: 14px;
   outline: none;

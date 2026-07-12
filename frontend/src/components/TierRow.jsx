@@ -1,6 +1,9 @@
-import ItemCard from './ItemCard'
+import { useDroppable } from '@dnd-kit/core'
+import DraggableItem from './DraggableItem'
 
-export default function TierRow({ tier, tiers, items, onMove, onDelete, onShowHistory }) {
+export default function TierRow({ tier, items, onDelete, onShowHistory }) {
+  const { setNodeRef, isOver } = useDroppable({ id: `tier-${tier.key}` })
+
   return (
     <div className="tier-row">
       <div className="tier-row__header" style={{ '--tier-color': tier.color }}>
@@ -10,17 +13,13 @@ export default function TierRow({ tier, tiers, items, onMove, onDelete, onShowHi
           <span title={tier.psychology}>{tier.meaning}</span>
         </div>
       </div>
-      <div className="tier-row__items">
-        {items.length === 0 && <span className="tier-row__empty">Nenhum item ainda neste tier.</span>}
+      <div
+        ref={setNodeRef}
+        className={`tier-row__items${isOver ? ' tier-row__items--over' : ''}`}
+      >
+        {items.length === 0 && <span className="tier-row__empty">Arraste um item pra cá.</span>}
         {items.map((item) => (
-          <ItemCard
-            key={item.id}
-            item={item}
-            tiers={tiers}
-            onMove={onMove}
-            onDelete={onDelete}
-            onShowHistory={onShowHistory}
-          />
+          <DraggableItem key={item.id} item={item} onDelete={onDelete} onShowHistory={onShowHistory} />
         ))}
       </div>
     </div>

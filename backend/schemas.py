@@ -8,7 +8,7 @@ class ItemBase(BaseModel):
     type: str
     creator: str | None = None
     artwork_url: str | None = None
-    tier: str = "D"
+    tier: str | None = None
 
 
 class ItemCreate(ItemBase):
@@ -16,7 +16,7 @@ class ItemCreate(ItemBase):
 
 
 class ItemUpdateTier(BaseModel):
-    tier: str
+    tier: str | None = None
 
 
 class Item(ItemBase):
@@ -29,7 +29,7 @@ class Item(ItemBase):
 class TierHistoryOut(BaseModel):
     id: int
     old_tier: str | None
-    new_tier: str
+    new_tier: str | None
     changed_at: datetime
 
     class Config:

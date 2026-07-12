@@ -14,7 +14,7 @@ export default function HistoryPanel({ item, entries, onClose }) {
           <li key={h.id}>
             <span className="history-panel__date">{new Date(h.changed_at).toLocaleString('pt-BR')}</span>
             <span>
-              {h.old_tier ?? 'criado'} → <strong>{h.new_tier}</strong>
+              {h.old_tier ?? 'não classificado'} → <strong>{h.new_tier ?? 'não classificado'}</strong>
             </span>
           </li>
         ))}

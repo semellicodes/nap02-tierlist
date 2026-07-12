@@ -24,7 +24,7 @@ export const TIERS = [
   {
     key: 'C',
     title: 'Ok',
-    meaning: 'Mediano — nem marcante, nem ruim.',
+    meaning: 'Mediano. Nem marcante, nem ruim.',
     color: '#8bd17c',
     psychology: 'Verde transmite calma e neutralidade.',
   },

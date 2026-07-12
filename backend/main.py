@@ -6,6 +6,7 @@ import models
 import schemas
 from auth import get_current_user_id
 from database import Base, engine, get_db
+from image_proxy import router as image_proxy_router
 from media_search import router as media_search_router
 
 Base.metadata.create_all(bind=engine)
@@ -20,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(media_search_router)
+app.include_router(image_proxy_router)
 
 VALID_TIERS = {"S", "A", "B", "C", "D"}
 
@@ -48,18 +50,19 @@ def criar_item(
     db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
-    if item.tier not in VALID_TIERS:
+    if item.tier is not None and item.tier not in VALID_TIERS:
         raise HTTPException(status_code=422, detail="Tier inválido")
     novo_item = models.Item(**item.model_dump(), user_id=user_id)
     db.add(novo_item)
     db.commit()
     db.refresh(novo_item)
-    db.add(
-        models.TierHistory(
-            item_id=novo_item.id, old_tier=None, new_tier=novo_item.tier
+    if novo_item.tier is not None:
+        db.add(
+            models.TierHistory(
+                item_id=novo_item.id, old_tier=None, new_tier=novo_item.tier
+            )
         )
-    )
-    db.commit()
+        db.commit()
     return novo_item
 
 
@@ -70,7 +73,7 @@ def atualizar_tier(
     db: Session = Depends(get_db),
     user_id: str = Depends(get_current_user_id),
 ):
-    if dados.tier not in VALID_TIERS:
+    if dados.tier is not None and dados.tier not in VALID_TIERS:
         raise HTTPException(status_code=422, detail="Tier inválido")
     item = _get_owned_item(item_id, user_id, db)
     if item.tier != dados.tier:

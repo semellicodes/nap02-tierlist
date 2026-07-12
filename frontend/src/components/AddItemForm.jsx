@@ -25,7 +25,7 @@ export default function AddItemForm({ onAdd }) {
   async function handleSubmit(e) {
     e.preventDefault()
     setEnviando(true)
-    await onAdd({ title, creator, type, tier: 'D', artwork_url: artworkUrl })
+    await onAdd({ title, creator, type, artwork_url: artworkUrl })
     setTitle('')
     setCreator('')
     setArtworkUrl(null)

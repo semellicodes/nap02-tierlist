@@ -31,19 +31,25 @@ export function useItems(accessToken) {
   }
 
   async function moverTier(itemId, tier) {
+    const anteriores = items
+    setErro('')
+    setItems((atuais) => atuais.map((item) => (item.id === itemId ? { ...item, tier } : item)))
     try {
       await itemsApi.updateItemTier(accessToken, itemId, tier)
-      await recarregar()
     } catch (e) {
+      setItems(anteriores)
       setErro(e.message)
     }
   }
 
   async function excluir(itemId) {
+    const anteriores = items
+    setErro('')
+    setItems((atuais) => atuais.filter((item) => item.id !== itemId))
     try {
       await itemsApi.deleteItem(accessToken, itemId)
-      await recarregar()
     } catch (e) {
+      setItems(anteriores)
       setErro(e.message)
     }
   }
