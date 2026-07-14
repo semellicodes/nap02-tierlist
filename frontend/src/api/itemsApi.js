@@ -1,19 +1,9 @@
+import { authHeaders, parseOrThrow } from './http'
+
 const API_URL = import.meta.env.VITE_API_URL
 
-function authHeaders(accessToken) {
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
-  }
-}
-
-async function parseOrThrow(res, mensagemErro) {
-  if (!res.ok) throw new Error(mensagemErro)
-  return res.status === 204 ? null : res.json()
-}
-
-export function fetchItems(accessToken) {
-  return fetch(`${API_URL}/items`, { headers: authHeaders(accessToken) }).then((res) =>
+export function fetchItems(accessToken, tierListId) {
+  return fetch(`${API_URL}/items?tier_list_id=${tierListId}`, { headers: authHeaders(accessToken) }).then((res) =>
     parseOrThrow(res, 'Não foi possível carregar os itens'),
   )
 }

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import * as itemsApi from '../api/itemsApi'
 
-export function useItems(accessToken) {
+export function useItems(accessToken, tierListId) {
   const [items, setItems] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
@@ -9,13 +9,13 @@ export function useItems(accessToken) {
   const recarregar = useCallback(async () => {
     try {
       setErro('')
-      setItems(await itemsApi.fetchItems(accessToken))
+      setItems(await itemsApi.fetchItems(accessToken, tierListId))
     } catch (e) {
       setErro(e.message)
     } finally {
       setCarregando(false)
     }
-  }, [accessToken])
+  }, [accessToken, tierListId])
 
   useEffect(() => {
     recarregar()
@@ -23,7 +23,7 @@ export function useItems(accessToken) {
 
   async function adicionar(novoItem) {
     try {
-      await itemsApi.createItem(accessToken, novoItem)
+      await itemsApi.createItem(accessToken, { ...novoItem, tier_list_id: tierListId })
       await recarregar()
     } catch (e) {
       setErro(e.message)

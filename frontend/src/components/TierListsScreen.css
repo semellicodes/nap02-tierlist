@@ -1,0 +1,69 @@
+.tier-lists-title {
+  margin-bottom: 16px;
+}
+
+.tier-lists-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tier-lists-form input {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--color-text);
+  font-size: 14px;
+  outline: none;
+}
+
+.tier-lists-form input:focus {
+  border-color: var(--color-primary);
+}
+
+.tier-lists-empty {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.tier-lists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+}
+
+.tier-list-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 8px 8px 16px;
+}
+
+.tier-list-card__open {
+  flex: 1;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.tier-list-card__actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tier-list-card__actions .btn-outline {
+  padding: 6px;
+}

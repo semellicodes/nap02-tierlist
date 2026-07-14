@@ -17,12 +17,20 @@
   text-align: center;
 }
 
+.login-card--register {
+  border-top: 4px solid var(--color-primary);
+}
+
 .login-logo {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   color: var(--color-primary);
   margin-bottom: 12px;
+}
+
+.login-card--register .login-logo {
+  color: var(--color-accent, var(--color-primary));
 }
 
 .login-card h1 {

@@ -8,7 +8,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import { Download } from 'lucide-react'
+import { ArrowLeft, Download } from 'lucide-react'
 import { TIERS } from '../constants/tiers'
 import { useItems } from '../hooks/useItems'
 import { exportElementAsImage } from '../lib/exportImage'
@@ -24,8 +24,11 @@ function tierFromDroppableId(id) {
   return id === 'tier-pool' ? null : id.replace('tier-', '')
 }
 
-export default function TierBoard({ session, onSignOut }) {
-  const { items, erro, adicionar, moverTier, excluir, buscarHistorico } = useItems(session.access_token)
+export default function TierBoard({ session, tierList, onSignOut, onBack }) {
+  const { items, erro, adicionar, moverTier, excluir, buscarHistorico } = useItems(
+    session.access_token,
+    tierList.id,
+  )
   const [historicoItem, setHistoricoItem] = useState(null)
   const [historicoEntradas, setHistoricoEntradas] = useState([])
   const [itemArrastado, setItemArrastado] = useState(null)
@@ -89,6 +92,11 @@ export default function TierBoard({ session, onSignOut }) {
       <AddItemForm onAdd={adicionar} />
 
       <div className="tier-board__toolbar">
+        <button type="button" className="btn-outline" onClick={onBack}>
+          <ArrowLeft size={14} strokeWidth={2} />
+          Minhas listas
+        </button>
+        <h2 className="tier-board__list-name">{tierList.name}</h2>
         <button type="button" className="btn-outline" onClick={handleExport} disabled={exportando}>
           <Download size={14} strokeWidth={2} />
           {exportando ? 'Exportando...' : 'Exportar imagem'}

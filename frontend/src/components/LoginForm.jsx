@@ -3,31 +3,21 @@ import { Clapperboard, Disc3 } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 import './LoginForm.css'
 
-export default function LoginForm() {
+export default function LoginForm({ onSwitchToRegister, onSwitchToForgotPassword }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [modoCadastro, setModoCadastro] = useState(false)
   const [erro, setErro] = useState('')
-  const [mensagem, setMensagem] = useState('')
   const [carregando, setCarregando] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
     setErro('')
-    setMensagem('')
     setCarregando(true)
 
-    const { error } = modoCadastro
-      ? await supabase.auth.signUp({ email, password })
-      : await supabase.auth.signInWithPassword({ email, password })
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     setCarregando(false)
-
-    if (error) {
-      setErro(error.message)
-    } else if (modoCadastro) {
-      setMensagem('Conta criada! Se a confirmação por email estiver ativa, verifique sua caixa de entrada.')
-    }
+    if (error) setErro(error.message)
   }
 
   return (
@@ -38,7 +28,7 @@ export default function LoginForm() {
           <Disc3 size={32} strokeWidth={1.8} />
         </div>
         <h1>Tier List</h1>
-        <p className="login-subtitle">Filmes &amp; Álbuns</p>
+        <p className="login-subtitle">Bem-vindo de volta</p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <input
@@ -50,22 +40,24 @@ export default function LoginForm() {
           />
           <input
             type="password"
-            placeholder="Senha (mín. 6 caracteres)"
+            placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
           />
           <button type="submit" className="btn-primary" disabled={carregando}>
-            {carregando ? 'Aguarde...' : modoCadastro ? 'Cadastrar' : 'Entrar'}
+            {carregando ? 'Aguarde...' : 'Entrar'}
           </button>
         </form>
 
         {erro && <p className="login-message login-message--error">{erro}</p>}
-        {mensagem && <p className="login-message login-message--success">{mensagem}</p>}
 
-        <button type="button" className="btn-link" onClick={() => setModoCadastro((v) => !v)}>
-          {modoCadastro ? 'Já tenho conta, entrar' : 'Não tenho conta, cadastrar'}
+        <button type="button" className="btn-link" onClick={onSwitchToForgotPassword}>
+          Esqueci minha senha
+        </button>
+        <button type="button" className="btn-link" onClick={onSwitchToRegister}>
+          Não tenho conta, cadastrar
         </button>
       </div>
     </div>

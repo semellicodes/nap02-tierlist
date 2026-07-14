@@ -3,12 +3,28 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+class TierListBase(BaseModel):
+    name: str
+
+
+class TierListCreate(TierListBase):
+    pass
+
+
+class TierList(TierListBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
 class ItemBase(BaseModel):
     title: str
     type: str
     creator: str | None = None
     artwork_url: str | None = None
     tier: str | None = None
+    tier_list_id: int
 
 
 class ItemCreate(ItemBase):
