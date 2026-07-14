@@ -1,4 +1,3 @@
-// Gradiente quente -> frio: reforça visualmente a hierarquia, do mais intenso ao mais neutro.
 export const TIERS = [
   {
     key: 'S',

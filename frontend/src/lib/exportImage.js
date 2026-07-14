@@ -6,7 +6,6 @@ function comTimeout(promise, ms, mensagem) {
 }
 
 export async function exportElementAsImage(element, filename) {
-  // esconde os botões de ação (histórico/excluir) só durante a captura
   element.classList.add('exporting-image')
 
   try {

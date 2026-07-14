@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
-/*
-  Paleta pensada com psicologia das cores:
-  - Roxo (primária): criatividade e imaginação, combina com o tema de filmes/música.
-  - Dourado: prestígio e conquista, usado em pequenos destaques.
-  - Tiers em gradiente quente -> frio (vermelho a azul): reforça a hierarquia
-    visualmente, do mais intenso/favorito ao mais neutro. Ver src/constants/tiers.js.
-*/
 :root {
   --color-bg: #10111a;
   --color-bg-glow: radial-gradient(circle at 20% -10%, rgba(124, 108, 246, 0.25), transparent 45%),
@@ -68,7 +61,6 @@ select {
   font-family: inherit;
 }
 
-/* Primitivos reutilizados pelos componentes (botões e ícones) */
 .btn-primary {
   display: inline-flex;
   align-items: center;

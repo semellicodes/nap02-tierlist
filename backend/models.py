@@ -10,10 +10,10 @@ class Item(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String, index=True, nullable=False)
     title = Column(String, nullable=False)
-    type = Column(String, nullable=False)  # "filme" ou "album"
-    creator = Column(String)  # diretor ou artista
+    type = Column(String, nullable=False)
+    creator = Column(String)
     artwork_url = Column(String)
-    tier = Column(String)  # None = ainda não classificado (fica no pool)
+    tier = Column(String)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     history = relationship(
