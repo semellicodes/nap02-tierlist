@@ -141,6 +141,11 @@
   margin-bottom: 8px;
 }
 
+.item-card__art-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .item-card__art {
   width: 40px;
   height: 40px;
@@ -156,6 +161,21 @@
   color: var(--color-text-muted);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
+}
+
+.item-card__badge {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--type-color);
+  color: var(--color-bg);
+  border: 2px solid var(--color-bg);
 }
 
 .item-card__text {

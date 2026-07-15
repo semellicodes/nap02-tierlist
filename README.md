@@ -168,3 +168,11 @@ Rotas públicas (sem autenticação, usadas pelo formulário de busca):
 **Imagem exportada** (botão "Exportar imagem"):
 
 ![Tier list exportada](docs/screenshots/print-tierlist.png)
+
+**Arrastando um item para uma tier:**
+
+![Arrastando item](docs/screenshots/arrastar.gif)
+
+**Exportando a tier list como imagem:**
+
+![Exportando imagem](docs/screenshots/printar.gif)

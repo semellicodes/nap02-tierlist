@@ -28,7 +28,7 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgotPassword
           <Disc3 size={32} strokeWidth={1.8} />
         </div>
         <h1>Tier List</h1>
-        <p className="login-subtitle">Bem-vindo de volta</p>
+        <p className="login-subtitle">Organize seus filmes, séries e álbuns favoritos.</p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <input
