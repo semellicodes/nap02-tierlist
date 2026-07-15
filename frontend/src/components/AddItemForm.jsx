@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Plus } from 'lucide-react'
-import { fetchMovieDirector } from '../api/mediaSearchApi'
+import { fetchMovieDirector, fetchTvCreator } from '../api/mediaSearchApi'
 import MediaSearch from './MediaSearch'
 import './AddItemForm.css'
 
@@ -19,6 +19,9 @@ export default function AddItemForm({ onAdd }) {
     if (type === 'filme') {
       const diretor = await fetchMovieDirector(resultado.id)
       if (diretor) setCreator(diretor)
+    } else if (type === 'serie') {
+      const criador = await fetchTvCreator(resultado.id)
+      if (criador) setCreator(criador)
     }
   }
 
@@ -37,6 +40,7 @@ export default function AddItemForm({ onAdd }) {
       <select value={type} onChange={(e) => setType(e.target.value)}>
         <option value="filme">Filme</option>
         <option value="album">Álbum</option>
+        <option value="serie">Série</option>
       </select>
       <MediaSearch type={type} onSelect={handleSelectResult} />
       <input placeholder="Título" value={title} onChange={(e) => setTitle(e.target.value)} required />

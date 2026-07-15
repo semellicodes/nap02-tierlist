@@ -29,7 +29,7 @@ export default function TierListsScreen({ session, onSignOut, onOpenList }) {
 
   return (
     <div className="tier-board">
-      <Header email={session.user.email} onSignOut={onSignOut} />
+      <Header user={session.user} onSignOut={onSignOut} />
 
       <h2 className="tier-lists-title">Minhas Tier Lists</h2>
 

@@ -13,3 +13,10 @@ export async function fetchMovieDirector(movieId) {
   const data = await res.json()
   return data.director
 }
+
+export async function fetchTvCreator(tvId) {
+  const res = await fetch(`${API_URL}/media-search/tv-creator/${tvId}`)
+  if (!res.ok) return null
+  const data = await res.json()
+  return data.creator
+}

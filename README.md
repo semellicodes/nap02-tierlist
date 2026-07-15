@@ -1,12 +1,12 @@
 # NAP 02 - Projeto Web
 
-Tier List de filmes e álbuns, com login e CRUD protegido por autenticação.
+Tier List de filmes, séries e álbuns, com login e CRUD protegido por autenticação.
 
 - **Frontend:** React + Vite
 - **Backend:** FastAPI (Python)
 - **Banco de dados:** PostgreSQL (Supabase)
 - **Autenticação:** Supabase Auth (email/senha, JWT)
-- **Busca de mídia:** TMDb (filmes) e iTunes Search API (álbuns), via proxy no backend
+- **Busca de mídia:** TMDb (filmes e séries) e iTunes Search API (álbuns), via proxy no backend
 
 ## Como funciona
 
@@ -81,5 +81,6 @@ Todas exigem `Authorization: Bearer <token>` (token de sessão do Supabase Auth)
 
 Rotas públicas (sem autenticação, usadas pelo formulário de busca):
 
-- `GET /media-search?query=&type=filme|album` - busca filmes (TMDb) ou álbuns (iTunes)
+- `GET /media-search?query=&type=filme|serie|album` - busca filmes/séries (TMDb) ou álbuns (iTunes)
 - `GET /media-search/movie-director/{id}` - busca o diretor de um filme no TMDb
+- `GET /media-search/tv-creator/{id}` - busca o(s) criador(es) de uma série no TMDb

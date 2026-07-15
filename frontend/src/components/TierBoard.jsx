@@ -85,7 +85,7 @@ export default function TierBoard({ session, tierList, onSignOut, onBack }) {
 
   return (
     <div className="tier-board">
-      <Header email={session.user.email} onSignOut={onSignOut} />
+      <Header user={session.user} onSignOut={onSignOut} />
 
       {(erro || erroExport) && <p className="tier-board__error">{erro || erroExport}</p>}
 

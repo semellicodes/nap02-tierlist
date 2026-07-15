@@ -1,8 +1,10 @@
-import { Clapperboard, Disc3, Info, X } from 'lucide-react'
+import { Clapperboard, Disc3, Info, Tv, X } from 'lucide-react'
 import { proxiedImageUrl } from '../lib/media'
 
+const ICONS = { filme: Clapperboard, serie: Tv, album: Disc3 }
+
 export default function ItemCard({ item, onDelete, onShowHistory }) {
-  const TypeIcon = item.type === 'filme' ? Clapperboard : Disc3
+  const TypeIcon = ICONS[item.type] ?? Disc3
 
   return (
     <div className="item-card">

@@ -50,7 +50,9 @@ export default function MediaSearch({ type, onSelect }) {
       <div className="media-search__input-wrap">
         <Search size={14} strokeWidth={2} className="media-search__icon" />
         <input
-          placeholder={type === 'filme' ? 'Buscar filme...' : 'Buscar álbum...'}
+          placeholder={
+            type === 'filme' ? 'Buscar filme...' : type === 'serie' ? 'Buscar série...' : 'Buscar álbum...'
+          }
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setAberto(true)}

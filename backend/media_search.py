@@ -60,11 +60,37 @@ def _buscar_filmes(query: str) -> list[dict]:
     return resultados
 
 
+def _buscar_series(query: str) -> list[dict]:
+    params = {"api_key": TMDB_API_KEY, "query": query, "language": "pt-BR"}
+    try:
+        resposta = httpx.get(f"{TMDB_URL}/search/tv", params=params, timeout=5)
+        resposta.raise_for_status()
+    except httpx.HTTPError:
+        raise HTTPException(status_code=502, detail="Não foi possível buscar no TMDb")
+
+    resultados = []
+    for item in resposta.json().get("results", [])[:8]:
+        poster = item.get("poster_path")
+        resultados.append(
+            {
+                "id": item.get("id"),
+                "title": item.get("name"),
+                "creator": None,
+                "year": (item.get("first_air_date") or "")[:4],
+                "artwork_url": f"{TMDB_IMAGE_BASE}{poster}" if poster else None,
+            }
+        )
+    return resultados
+
+
+BUSCADORES = {"filme": _buscar_filmes, "album": _buscar_albuns, "serie": _buscar_series}
+
+
 @router.get("/media-search")
 def buscar_midia(query: str = Query(..., min_length=2), type: str = Query(...)):
-    if type not in ("filme", "album"):
-        raise HTTPException(status_code=422, detail="type deve ser 'filme' ou 'album'")
-    return _buscar_filmes(query) if type == "filme" else _buscar_albuns(query)
+    if type not in BUSCADORES:
+        raise HTTPException(status_code=422, detail="type deve ser 'filme', 'album' ou 'serie'")
+    return BUSCADORES[type](query)
 
 
 @router.get("/media-search/movie-director/{movie_id}")
@@ -78,3 +104,16 @@ def buscar_diretor(movie_id: int):
 
     diretores = [c["name"] for c in resposta.json().get("crew", []) if c.get("job") == "Director"]
     return {"director": ", ".join(diretores) if diretores else None}
+
+
+@router.get("/media-search/tv-creator/{tv_id}")
+def buscar_criador_serie(tv_id: int):
+    params = {"api_key": TMDB_API_KEY}
+    try:
+        resposta = httpx.get(f"{TMDB_URL}/tv/{tv_id}", params=params, timeout=5)
+        resposta.raise_for_status()
+    except httpx.HTTPError:
+        raise HTTPException(status_code=502, detail="Não foi possível buscar os detalhes no TMDb")
+
+    criadores = [c["name"] for c in resposta.json().get("created_by", [])]
+    return {"creator": ", ".join(criadores) if criadores else None}
