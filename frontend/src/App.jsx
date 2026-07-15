@@ -5,13 +5,14 @@ import RegisterForm from './components/RegisterForm'
 import ForgotPasswordForm from './components/ForgotPasswordForm'
 import TierListsScreen from './components/TierListsScreen'
 import TierBoard from './components/TierBoard'
+import Spinner from './components/Spinner'
 
 function App() {
   const { session, loading, signOut } = useSession()
   const [tela, setTela] = useState('login')
   const [listaAtiva, setListaAtiva] = useState(null)
 
-  if (loading) return null
+  if (loading) return <Spinner label="Carregando..." />
 
   if (!session) {
     if (tela === 'register') return <RegisterForm onSwitchToLogin={() => setTela('login')} />

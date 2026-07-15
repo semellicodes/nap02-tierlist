@@ -6,6 +6,12 @@ const ICONS = { filme: Clapperboard, serie: Tv, album: Disc3 }
 export default function ItemCard({ item, onDelete, onShowHistory }) {
   const TypeIcon = ICONS[item.type] ?? Disc3
 
+  function handleDelete() {
+    if (window.confirm(`Excluir "${item.title}"?`)) {
+      onDelete(item.id)
+    }
+  }
+
   return (
     <div className="item-card">
       <div className="item-card__top">
@@ -39,7 +45,7 @@ export default function ItemCard({ item, onDelete, onShowHistory }) {
           className="btn-icon btn-icon--danger"
           title="Excluir"
           onPointerDown={(e) => e.stopPropagation()}
-          onClick={() => onDelete(item.id)}
+          onClick={handleDelete}
         >
           <X size={15} strokeWidth={2} />
         </button>

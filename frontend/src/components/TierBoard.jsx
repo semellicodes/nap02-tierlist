@@ -18,6 +18,8 @@ import TierRow from './TierRow'
 import UnrankedPool from './UnrankedPool'
 import ItemCard from './ItemCard'
 import HistoryPanel from './HistoryPanel'
+import Spinner from './Spinner'
+import Toast from './Toast'
 import './TierBoard.css'
 
 function tierFromDroppableId(id) {
@@ -25,10 +27,8 @@ function tierFromDroppableId(id) {
 }
 
 export default function TierBoard({ session, tierList, onSignOut, onBack }) {
-  const { items, erro, adicionar, moverTier, excluir, buscarHistorico } = useItems(
-    session.access_token,
-    tierList.id,
-  )
+  const { items, carregando, erro, mensagem, limparMensagem, adicionar, moverTier, excluir, buscarHistorico } =
+    useItems(session.access_token, tierList.id)
   const [historicoItem, setHistoricoItem] = useState(null)
   const [historicoEntradas, setHistoricoEntradas] = useState([])
   const [itemArrastado, setItemArrastado] = useState(null)
@@ -103,34 +103,40 @@ export default function TierBoard({ session, tierList, onSignOut, onBack }) {
         </button>
       </div>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="tier-board__rows" ref={rowsRef}>
-          {TIERS.map((tier) => (
-            <TierRow
-              key={tier.key}
-              tier={tier}
-              items={items.filter((item) => item.tier === tier.key)}
-              onDelete={handleDelete}
-              onShowHistory={handleShowHistory}
-            />
-          ))}
-        </div>
+      {carregando ? (
+        <Spinner label="Carregando itens..." />
+      ) : (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="tier-board__rows" ref={rowsRef}>
+            {TIERS.map((tier) => (
+              <TierRow
+                key={tier.key}
+                tier={tier}
+                items={items.filter((item) => item.tier === tier.key)}
+                onDelete={handleDelete}
+                onShowHistory={handleShowHistory}
+              />
+            ))}
+          </div>
 
-        <UnrankedPool items={itemsSemTier} onDelete={handleDelete} onShowHistory={handleShowHistory} />
+          <UnrankedPool items={itemsSemTier} onDelete={handleDelete} onShowHistory={handleShowHistory} />
 
-        <DragOverlay>
-          {itemArrastado ? (
-            <ItemCard item={itemArrastado} onDelete={() => {}} onShowHistory={() => {}} />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+          <DragOverlay>
+            {itemArrastado ? (
+              <ItemCard item={itemArrastado} onDelete={() => {}} onShowHistory={() => {}} />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      )}
 
       <HistoryPanel item={historicoItem} entries={historicoEntradas} onClose={() => setHistoricoItem(null)} />
+
+      <Toast message={mensagem} type="success" onDone={limparMensagem} />
     </div>
   )
 }

@@ -8,6 +8,7 @@ export default function MediaSearch({ type, onSelect }) {
   const [query, setQuery] = useState('')
   const [resultados, setResultados] = useState([])
   const [buscando, setBuscando] = useState(false)
+  const [erroBusca, setErroBusca] = useState('')
   const [aberto, setAberto] = useState(false)
   const queryDebounced = useDebouncedValue(query, 400)
 
@@ -19,13 +20,18 @@ export default function MediaSearch({ type, onSelect }) {
 
     let cancelado = false
     setBuscando(true)
+    setErroBusca('')
 
     searchMedia(queryDebounced, type)
       .then((r) => {
         if (!cancelado) setResultados(r)
       })
-      .catch(() => {
-        if (!cancelado) setResultados([])
+      .catch((e) => {
+        if (!cancelado) {
+          console.error(e)
+          setResultados([])
+          setErroBusca('Não foi possível buscar.')
+        }
       })
       .finally(() => {
         if (!cancelado) setBuscando(false)
@@ -63,7 +69,8 @@ export default function MediaSearch({ type, onSelect }) {
       {mostrarLista && (
         <ul className="media-search__results">
           {buscando && <li className="media-search__status">Buscando...</li>}
-          {!buscando && resultados.length === 0 && (
+          {!buscando && erroBusca && <li className="media-search__status">{erroBusca}</li>}
+          {!buscando && !erroBusca && resultados.length === 0 && (
             <li className="media-search__status">Nenhum resultado.</li>
           )}
           {resultados.map((r, i) => (

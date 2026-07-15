@@ -5,12 +5,14 @@ export function useItems(accessToken, tierListId) {
   const [items, setItems] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState('')
+  const [mensagem, setMensagem] = useState('')
 
   const recarregar = useCallback(async () => {
     try {
       setErro('')
       setItems(await itemsApi.fetchItems(accessToken, tierListId))
     } catch (e) {
+      console.error(e)
       setErro(e.message)
     } finally {
       setCarregando(false)
@@ -25,7 +27,9 @@ export function useItems(accessToken, tierListId) {
     try {
       await itemsApi.createItem(accessToken, { ...novoItem, tier_list_id: tierListId })
       await recarregar()
+      setMensagem('Item adicionado com sucesso!')
     } catch (e) {
+      console.error(e)
       setErro(e.message)
     }
   }
@@ -36,7 +40,9 @@ export function useItems(accessToken, tierListId) {
     setItems((atuais) => atuais.map((item) => (item.id === itemId ? { ...item, tier } : item)))
     try {
       await itemsApi.updateItemTier(accessToken, itemId, tier)
+      setMensagem('Item atualizado com sucesso!')
     } catch (e) {
+      console.error(e)
       setItems(anteriores)
       setErro(e.message)
     }
@@ -48,15 +54,33 @@ export function useItems(accessToken, tierListId) {
     setItems((atuais) => atuais.filter((item) => item.id !== itemId))
     try {
       await itemsApi.deleteItem(accessToken, itemId)
+      setMensagem('Item excluído com sucesso!')
     } catch (e) {
+      console.error(e)
       setItems(anteriores)
       setErro(e.message)
     }
   }
 
-  function buscarHistorico(itemId) {
-    return itemsApi.fetchItemHistory(accessToken, itemId)
+  async function buscarHistorico(itemId) {
+    try {
+      return await itemsApi.fetchItemHistory(accessToken, itemId)
+    } catch (e) {
+      console.error(e)
+      setErro(e.message)
+      return []
+    }
   }
 
-  return { items, carregando, erro, adicionar, moverTier, excluir, buscarHistorico }
+  return {
+    items,
+    carregando,
+    erro,
+    mensagem,
+    limparMensagem: () => setMensagem(''),
+    adicionar,
+    moverTier,
+    excluir,
+    buscarHistorico,
+  }
 }
