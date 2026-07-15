@@ -157,4 +157,14 @@ Rotas públicas (sem autenticação, usadas pelo formulário de busca):
 
 ## Prints
 
-<!-- Adicionar aqui screenshots da aplicação (tela de login, tier board, formulário de busca, etc.) -->
+| Login | Cadastro |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Cadastro](docs/screenshots/cadastrar.png) |
+
+**Tier board** (montando a tier list, com toast de sucesso, header mostrando o username e o formulário de adicionar item):
+
+![Tier board](docs/screenshots/tierlist.png)
+
+**Imagem exportada** (botão "Exportar imagem"):
+
+![Tier list exportada](docs/screenshots/print-tierlist.png)
